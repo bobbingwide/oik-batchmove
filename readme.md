@@ -44,7 +44,6 @@ To enable scheduled republishing:
 
 This will enable the WordPress CRON scheduling to perform scheduled republishing on a daily basis.
 
-
 To disable scheduled republishing:
 1. With the oik-batchmove plugin activated
 1. Visit oik options > Scheduled republish
