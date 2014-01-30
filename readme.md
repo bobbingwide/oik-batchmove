@@ -30,12 +30,14 @@ For version 2.0, oik batchmove also supports Scheduled republishing using WordPr
 
 ## Frequently Asked Questions 
 # How do I use it? 
+
 1. Visit Posts > Batch move
 1. Use the Selection criteria to list the posts you may want to alter and click on Filter.
 1. Select the posts to change.
 1. Select the target category, choose the Action to perform, click on Apply changes.
 
 # How do I use scheduled republishing? 
+
 To enable scheduled republishing:
 1. Activate the oik-batchmove plugin
 1. Visit oik options > Scheduled republish to enter the settings you want to use.
@@ -45,6 +47,7 @@ To enable scheduled republishing:
 This will enable the WordPress CRON scheduling to perform scheduled republishing on a daily basis.
 
 To disable scheduled republishing:
+
 1. With the oik-batchmove plugin activated
 1. Visit oik options > Scheduled republish
 1. Ensure Activated? is unchecked
