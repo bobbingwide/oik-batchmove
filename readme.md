@@ -23,6 +23,7 @@ For version 2.0, oik batchmove also supports Scheduled republishing using WordPr
 
 
 ## Installation 
+
 1. Upload the contents of the oik-batchmove plugin to the `/wp-content/plugins/oik-batchmove' directory
 1. Activate the oik-batchmove plugin through the 'Plugins' menu in WordPress
 1. Visit Posts > Batch move or Oik options > Batch move to start changing post's categories or publication dates.
@@ -39,6 +40,7 @@ For version 2.0, oik batchmove also supports Scheduled republishing using WordPr
 # How do I use scheduled republishing? 
 
 To enable scheduled republishing:
+
 1. Activate the oik-batchmove plugin
 1. Visit oik options > Scheduled republish to enter the settings you want to use.
 1. Ensure Activated? is checked
