@@ -1,10 +1,10 @@
 === oik-batchmove ===
-Contributors: bobbingwide
+Contributors: bobbingwide, vsgloik
 Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: category, republish, add, update, delete, scheduled republish
-Requires at least: 3.5.1
-Tested up to: 3.8.1
-Stable tag: 2.0
+Requires at least: 3.9
+Tested up to: 4.0
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,12 @@ Actions supported:
 * Republish - alter the post date by adding or subtracting defined amounts
 
 For version 2.0, oik batchmove also supports Scheduled republishing using WordPress CRON
+For version 2.1, oik batchmove supports
+
+* Category republishing of oldest posts in selected Categories
+* Tag republishing of oldest posts with selected Tags
+
+For version 2.2, category and tag republishing only republishes ONE post per category or tag
 
 
 == Installation ==
@@ -30,12 +36,14 @@ For version 2.0, oik batchmove also supports Scheduled republishing using WordPr
 
 == Frequently Asked Questions ==
 = How do I use it? = 
+
 1. Visit Posts > Batch move
 1. Use the Selection criteria to list the posts you may want to alter and click on Filter.
 1. Select the posts to change.
 1. Select the target category, choose the Action to perform, click on Apply changes.
 
 = How do I use scheduled republishing? =
+
 To enable scheduled republishing:
 1. Activate the oik-batchmove plugin
 1. Visit oik options > Scheduled republish to enter the settings you want to use.
@@ -46,6 +54,7 @@ This will enable the WordPress CRON scheduling to perform scheduled republishing
 
 
 To disable scheduled republishing:
+
 1. With the oik-batchmove plugin activated
 1. Visit oik options > Scheduled republish
 1. Ensure Activated? is unchecked
@@ -69,7 +78,8 @@ If you find a post that you don't want republished then you may want to edit or 
 This scenario has not been tested.
 
 = How can I exclude posts? =
-@TODO This is a planned feature
+If you have the oik-fields plugin then you can set the "Do not republish" checkbox.
+Any post which has this checkbox ticked will be ignored by both Scheduled batchmove, Category republish and Tag republish.
 
 = Will my posts be re-publicized to Facebook and Twitter? =
 Yes. That's the plan. 
@@ -96,6 +106,9 @@ oik provides a lot of stuff, which is mostly dormant until you really need it.
 = Which version of oik do I need? =
 The oik-batchmove plugin is dependent upon oik (v2.0 or higher) for date filter logic
 
+= Which version of PHP do I need? =
+Requires PHP 5.3 or higher.
+
 = Are there similar plugins? = 
 Yes. This plugin was sponsored by Howard Popeck for Our Listeners Club - for the music loving audiophile
 Before developing oik-batchmove I tried these plugins. They didn't satisfy the original requirements. 
@@ -103,7 +116,7 @@ Before developing oik-batchmove I tried these plugins. They didn't satisfy the o
 * [Batch-Move wp plugin](http://wordpress.org/plugins/batchmove/)
 * [Bulk Move](http://wordpress.org/plugins/bulk-move/)
 
-I'm not aware of any other plugins that perform Scheduled republishing logic.
+I'm not aware of any other plugins that perform Scheduled republishing or Category republishing logic.
 
 == Screenshots ==
 1. Selection criteria: Choose the posts to alter
@@ -119,6 +132,12 @@ I'm not aware of any other plugins that perform Scheduled republishing logic.
 11. CRON box - showing next scheduled time and information for the most recent run
 
 == Upgrade Notice ==
+= 2.2 =
+Category and tag republish now only processes one post per category or tag
+
+= 2.1 = 
+Requires oik-fields for "Do not republish" capability. Tested with WordPress 3.9
+
 = 2.0 =
 Now dependent upon oik v2.1
 
@@ -146,6 +165,25 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 == Changelog ==
+= 2.2 = 
+* Changed: Limit Category and Tag republishing to only processing one post per category or tag
+* Tested with WordPress 3.9 through 4.0 
+
+= 2.1 =
+* Tested: With WordPress 3.9 
+
+= 2.1-alpha.0221 = 
+* Fixed: Category republish was selecting the wrong posts to republish.
+* Added: Duplicated logic for Category republish to support Tag republish.
+
+= 2.1-alpha.0219 =
+* Added: Action hook for "oik_fields_loaded" to register the "_do_not_republish" checkbox.
+* Added: oik_batchmove_lazy_category_republish() is run before oik_batchmove_lazy_cron()
+* Added: Admin dialogs to allow Category republish options to be specified
+* Added: a button to "test" Category republish
+* Changed: Scheduled republish will not republish posts marked as "_do_not_republish".
+* Noted: Requires PHP 5.3 or higher.
+
 = 2.0 =
 * Changed: New option "reschedule_time" allows you to set the publishing time to a fixed time. e.g. 09:00:00. Defaults to republishing with the original time.
 * Changed: post_gmt_date also adjusted in manual republish

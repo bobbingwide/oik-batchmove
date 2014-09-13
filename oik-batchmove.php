@@ -2,11 +2,10 @@
 /*
 Plugin Name: oik batchmove
 Plugin URI: http://wordpress.org/extend/plugins/oik-batchmove
-Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-batchmove
-Description: Batch change post categories or published date
-Version: 2.0
+Description: Batch change post categories or published date incl. CRON rescheduling
+Version: 2.2
 Author: bobbingwide
-Author URI: http://www.bobbingwide.com
+Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
     Copyright 2013, 2014 Bobbing Wide (email : herb@bobbingwide.com )
@@ -33,6 +32,14 @@ License: GPL2
  * CRON logic moved to admin pages - enabling the user to schedule / deschedule the processing
  */
 function oik_batchmove_loaded() {
+}
+
+/**
+ * Implement "oik_fields_loaded" for oik-batchmove
+ */
+function oik_batchmove_fields_loaded() {
+  bw_register_field( "_do_not_reschedule", "checkbox", "Do not reschedule", array( "#theme" => false, "#form" => false ) );
+  bw_register_field_for_object_type( "_do_not_reschedule", "post" ); 
 }
 
 /**
@@ -64,7 +71,7 @@ function bw_date_adjust( $adjustment="1 year", $date=null, $format='Y-m-d' ) {
 }
 
 /**
- * Implement "oik_batchmove_hook" action to process the cron event for Scheduled republishing
+ * Implement "oik_batchmove_hook" action to process the cron event for Category republishing, Tag republishing and Scheduled republishing
  *
  * We're dependent upon oik but we don't have to worry about APIs not being available
  * since "oik_loaded" will have been invoked before the WordPress cron code actions the scheduled event.
@@ -73,6 +80,8 @@ function oik_batchmove_cron_hook() {
   //bw_trace2();
   //bw_backtrace();
   oik_require( "admin/oik-batchmove-cron.php", "oik-batchmove" ); 
+  oik_batchmove_lazy_category_republish();
+  oik_batchmove_lazy_tag_republish();
   oik_batchmove_lazy_cron();
 } 
 
@@ -92,10 +101,12 @@ function oik_batchmove_activation() {
   static $plugin_basename = null;
   if ( !$plugin_basename ) {
     $plugin_basename = plugin_basename(__FILE__);
-    add_action( "after_plugin_row_" . $plugin_basename, __FUNCTION__ );   
-    require_once( "admin/oik-activation.php" );
+    add_action( "after_plugin_row_oik-batchmove/oik-batchmove.php", "oik_batchmove_activation" );   
+    if ( !function_exists( "oik_plugin_lazy_activation" ) ) { 
+      require_once( "admin/oik-activation.php" );
+    }
   }  
-  $depends = "oik:2.1";
+  $depends = "oik:2.2";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 
@@ -106,6 +117,7 @@ function oik_batchmove_plugin_loaded() {
   add_action( "oik_admin_menu", "oik_batchmove_admin_menu" );
   add_action( "admin_notices", "oik_batchmove_activation" );
   add_action( "oik_loaded", "oik_batchmove_loaded" );
+  add_action( "oik_fields_loaded", "oik_batchmove_fields_loaded" );
   add_action( "oik_batchmove_hook", "oik_batchmove_cron_hook" );
 }
 
