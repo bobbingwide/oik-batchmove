@@ -5,15 +5,20 @@
  *
  * This page:
  * - displays the settings for "scheduled republish"
+ * - displays the settings for category reschedule
+ * - displays the settings for tag reschedule
  * - runs the cron process if manually requested
  * - displays any posts that should have been rescheduled today
  * - displays any posts that will get rescheduled tomorrow
  * - displays posts that are published/scheduled for the future date 
- * - displays CRON information 
+ * - displays CRON information and test buttons 
  */
 function oik_batchmove_lazy_scheduled_page() {
   oik_menu_header( "Scheduled republish", "w90pc" );
   oik_box( null, null, "Settings", "oik_batchmove_settings" );
+  oik_box( null, null, "Reschedule oldest in category", "oik_batchmove_reschedule_oldest" );
+  oik_box( null, null, "Reschedule oldest with tag", "oik_batchmove_reschedule_oldest_tags" );
+  
   oik_batchmove_run_cron_maybe();
   oik_box( null, null, "Reposts for today", "oik_batchmove_repost_today" );
   oik_box( null, null, "Reposts for tomorrow", "oik_batchmove_reposts" );
@@ -58,6 +63,27 @@ function oik_batchmove_settings() {
   etag( "form" );
   bw_flush();
 }
+
+/**
+ * To choose categories to be rescheduled by cycling the oldest to the current date.
+ * Optionally, specifying a new publication time. e.g 02:00, set by Category
+ */ 
+function oik_batchmove_reschedule_oldest() {
+  oik_batchmove_run_category_republish_maybe();
+  oik_require( "admin/oik-batchmove-categories.php", "oik-batchmove" );
+  oikbmc_lazy_do_page();
+}
+
+
+/**
+ * To choose categories to be rescheduled by cycling the oldest to the current date.
+ * Optionally, specifying a new publication time. e.g 02:00, set by Category
+ */ 
+function oik_batchmove_reschedule_oldest_tags() {
+  oik_batchmove_run_tag_republish_maybe();
+  oik_require( "admin/oik-batchmove-tags.php", "oik-batchmove" );
+  oikbmt_lazy_do_page();
+}
  
 /**
  * Invoke the cron event if requested 
@@ -71,6 +97,27 @@ function oik_batchmove_run_cron_maybe() {
     oik_batchmove_lazy_cron( true );
   }
 }
+
+/**
+ * Invoke category republish if requested 
+ */
+function oik_batchmove_run_category_republish_maybe() {
+  $action = bw_array_get( $_REQUEST, "_oik_batchmove_category_republish", null );
+  if ( $action ) {
+    oik_batchmove_lazy_category_republish( true );
+  }
+}
+
+/**
+ * Invoke tag republish if requested 
+ */
+function oik_batchmove_run_tag_republish_maybe() {
+  $action = bw_array_get( $_REQUEST, "_oik_batchmove_tag_republish", null );
+  if ( $action ) {
+    oik_batchmove_lazy_tag_republish( true );
+  }
+}
+ 
 
 /**
  * Return the bw_scheduled default option value
@@ -208,6 +255,8 @@ function oik_batchmove_cron() {
   }
   bw_form();
   p( isubmit( "_oik_batchmove_run_cron", "Run scheduled republish now", null, "button-secondary" ) );
+  p( isubmit( "_oik_batchmove_category_republish", "Run category republish now", null, "button-secondary" ) );
+  p( isubmit( "_oik_batchmove_tag_republish", "Run tag republish now", null, "button-secondary" ) );
   etag( "form" );
 }
 
@@ -283,7 +332,7 @@ function oik_batchmove_schedule( $activated=false ) {
  */
 function oik_batchmove_lazy_cron( $verbose=false) {
   $post_date = oik_batchmove_query_post_date();
-  $posts = oik_batchmove_query_reposts( $post_date );
+  $posts = oik_batchmove_query_reposts( $post_date, 0 );
   if ( $verbose ) {
     p( "Rescheduling posts for $post_date" );
   } 
@@ -291,7 +340,7 @@ function oik_batchmove_lazy_cron( $verbose=false) {
   if ( $posts ) {
     foreach ( $posts as $post ) {
       if ( $verbose ) {
-        p( "Rescheduling: " .  $post->ID );
+        p( "Rescheduling: " . $post->ID );
         
       }
       oik_batchmove_republish_post( $post );
@@ -303,7 +352,184 @@ function oik_batchmove_lazy_cron( $verbose=false) {
   oik_batchmove_log_reposted( $post_date, $posts );
 }
 
+/**
+ * Delete unnecessary "_do_not_reschedule" metadata
+ *
+ * e.g. delete from wp_postmeta where meta_key = '_do_not_reschedule' and meta_value = '0'
+ * @link http://codex.wordpress.org/Class_Reference/wpdb#DELETE_Rows
+ *
+ * @param string $meta_key - the post meta field name
+ * @param string $meta_value - the post meta field value
+ *
+ */
+function bw_delete_all_meta_key( $meta_key, $meta_value ) {
+  global $wpdb;
+  if ( null != $meta_key && null != $meta_value ) {
+    $rows_deleted = $wpdb->delete( $wpdb->postmeta, array( "meta_key" => $meta_key, "meta_value" => $meta_value ), array( "%s", "%s" ) );
+    bw_trace2( $rows_deleted, "Deleted rows" );
+  } else {
+    bw_trace2( "Invalid call - meta_key and meta_value MUST be set" );
+  }
+}
 
+/**
+ * Perform category republishing for selected categories
+ * 
+ * Call oik_batchmove_category_republish for each category and target time
+ * The rescheduling is performed in the order specified on the admin page
+ * which is not necessarily by Category name OR time.
+ * If you use multiple categories on your posts it is potentially possible to reschedule posts in a particular category for multiple oldest dates.
+ * Left as an exercise for the reader to create a test case that will demonstrate this. 
+ * 
+ * Prior to the republishing by category we delete ALL post meta records which have a velue of 0.
+ *
+ * By deleting all the unnecessary keys we can perform a simpler query to avoid the rows where the meta_value is set.
+ * In other words it makes it easier for us to find posts that we can reschedule.
+ * Over time there may be a whole bunch of archive posts with "_do_not_reschedule" set. 
+ * We could assign them to a different category, but it probably won't affect the database access.
+ *
+ * @param bool $verbose - set true if you want messages in admin, false for CRON
+ */
+function oik_batchmove_lazy_category_republish( $verbose=false) {
+  $bw_bmcs = get_option( "bw_bmcs" );
+  if ( is_array( $bw_bmcs) && count( $bw_bmcs )) {
+    oik_require( "includes/bw_posts.inc" );
+    bw_delete_all_meta_key( "_do_not_reschedule", "0" );
+    foreach ( $bw_bmcs as $bmc => $data ) {
+      oik_batchmove_category_republish( $data['args']['category'], $data['args']['time'], $verbose );
+    }
+  }  
+}
+
+/**
+ * Perform tag republishing for selected tags
+ * 
+ * Call oik_batchmove_tag_republish for each tag and target time
+ * The rescheduling is performed in the order specified on the admin page
+ * which is not necessarily by Tag name OR time.
+ * If you use multiple tags on your posts it is potentially possible to reschedule posts in a particular tag for multiple oldest dates.
+ * Left as an exercise for the reader to create a test case that will demonstrate this. 
+ * 
+ * Prior to the republishing by category/tag we delete ALL post meta records which have a velue of 0.
+ *
+ * By deleting all the unnecessary keys we can perform a simpler query to avoid the rows where the meta_value is set.
+ * In other words it makes it easier for us to find posts that we can reschedule.
+ * Over time there may be a whole bunch of archive posts with "_do_not_reschedule" set. 
+ * We could assign them to a different tag, but it probably won't affect the database access.
+ *
+ * @param bool $verbose - set true if you want messages in admin, false for CRON
+ */
+function oik_batchmove_lazy_tag_republish( $verbose=false) {
+  $bw_bmts = get_option( "bw_bmts" );
+  if ( is_array( $bw_bmts) && count( $bw_bmts )) {
+    oik_require( "includes/bw_posts.inc" );
+    bw_delete_all_meta_key( "_do_not_reschedule", "0" );
+    foreach ( $bw_bmts as $bmc => $data ) {
+      oik_batchmove_tag_republish( $data['args']['tag'], $data['args']['time'], $verbose );
+    }
+  }  
+}
+
+/**
+ * Find the oldest date for posts in this category and/or with this tag which are not marked as "_do_not_reschedule"
+ *
+ * Q. Do we have to delete all those that don't have the "_do_not_reschedule" set?
+ * 
+ *
+ * @param string $cat - the category ID
+ * @param string $tag - the tag ID
+ * @return string - the post date or null
+ */ 
+function oik_batchmove_query_oldest_date( $cat=null, $tag=null ) {
+  $post_date = null;
+  $atts = array( "post_type" => "post" 
+               , "meta_key" =>  "_do_not_reschedule"
+               , "meta_compare" => "NOT EXISTS" 
+               , "meta_value" => "1"
+               , "order" => "asc"
+               , "orderby" => "date"
+               , "numberposts" => 1
+               );
+  if ( $cat ) {
+    $atts['cat'] = $cat;
+  }
+  if ( $tag ) {
+    $atts['tag_id'] = $tag;
+  }  
+  $posts = bw_get_posts( $atts ); 
+  if ( $posts ) {
+    $post = $posts[0];
+    $post_date = $post->post_date;
+  }
+  return( $post_date );
+}
+
+/**
+ * Republish posts from a chosen category, setting a new published time if required
+ *
+ * @param string $cat - The Category ID to republish
+ * @param string $time - the target time in format hh:mmm
+ * @param bool $verbose - whether or not to display activity 
+ *
+ */
+function oik_batchmove_category_republish( $cat, $time, $verbose=false ) {
+  $post_date = oik_batchmove_query_oldest_date( $cat );
+  if ( $post_date ) {
+    $posts = oik_batchmove_query_reposts( $post_date, $cat );
+    if ( $verbose ) {
+      p( "Rescheduling posts for $post_date, category: $cat, time: $time" );
+    } 
+    if ( $posts ) {
+      foreach ( $posts as $post ) {
+        if ( $verbose ) {
+          p( "Rescheduling: " . $post->ID );
+        
+        }
+        oik_batchmove_republish_post( $post, $cat, $time );
+      }
+    } else {
+      $posts = null;
+      p( "No posts to reschedule: $cat" );
+    }
+  
+  } else {
+    p( "No posts to reschedule for $cat" );
+  }
+}
+
+
+/**
+ * Republish posts with a chosen tag, setting a new published time if required
+ *
+ * @param string $tag - The tag ID to republish
+ * @param string $time - the target time in format hh:mmm
+ * @param bool $verbose - whether or not to display activity 
+ *
+ */
+function oik_batchmove_tag_republish( $tag, $time, $verbose=false ) {
+  $post_date = oik_batchmove_query_oldest_date( null, $tag );
+  if ( $post_date ) {
+    $posts = oik_batchmove_query_reposts( $post_date, null, $tag );
+    if ( $verbose ) {
+      p( "Rescheduling posts for $post_date, tag: $tag, time: $time" );
+    } 
+    if ( $posts ) {
+      foreach ( $posts as $post ) {
+        if ( $verbose ) {
+          p( "Rescheduling: " . $post->ID );
+        
+        }
+        oik_batchmove_republish_post( $post, $tag, $time );
+      }
+    } else {
+      $posts = null;
+      p( "No posts to reschedule: $tag" );
+    }
+  
+  } else {
+    p( "No posts to reschedule for $tag" );
+  }
+}
 
 if ( !function_exists( "bw_update_option" ) ) {
 /** Set the value of an option field in the options group
@@ -324,7 +550,6 @@ function bw_update_option( $field, $value=NULL, $options="bw_options" ) {
 }
 }  
 
-
 /** 
  * Update the log of oik_batchmove_lazy_cron
  * 
@@ -334,25 +559,28 @@ function bw_update_option( $field, $value=NULL, $options="bw_options" ) {
 function oik_batchmove_log_reposted( $post_date, $posts ) {
   bw_update_option( "last_run", time(), "bw_scheduled_log" );
   bw_update_option( "post_date", $post_date, "bw_scheduled_log" );
-  //$postlist = 
-  //bw_update_option( 
-
 }
-
 
 /**
  * Query the posts to be published or republished 
  *
  * Note: We don't expect there to be so many posts that we can't apply the updates in one invocation.
  * Note: We look for posts in "future" status, even if the post_date is in the past.
- * 
- * @TODO - add code to exclude posts with certain tags or categories
+ * When $cat is null we look for all posts, even those marked as "_do_not_reschedule".
+ * This will enable the admin user to decide what the value of the flag should be?
+ * When $cat or $tag is not null then we only reschedule one post.
+ 
+ * @TODO Enhance UI to allow setting of this field.
  *
  * @param string $post_date - post_date to be used for the query
+ * @param string $cat - Category ID - for Category. If not null then we only lists posts without "_do_not_reschedule" 
+ * The value 0, which is not a valid category, is used by scheduled batchmove when actually performing the move.
+ * @param string $tag - Tag ID - for the selected tag. If not null then we only lists posts without "_do_not_reschedule" 
  * @return array - array of posts found that satisfy the query
  * 
  */
-function oik_batchmove_query_reposts( $post_date ) {
+function oik_batchmove_query_reposts( $post_date, $cat=null, $tag=null ) {
+  bw_trace2();
   oik_require( "includes/bw_posts.inc" );
   $atts = array();
   $atts['post_type'] = "post";
@@ -363,10 +591,25 @@ function oik_batchmove_query_reposts( $post_date ) {
   $atts['order'] = "ASC";
   $atts['numberposts'] = -1;
   $atts['post_status'] = array( 'publish', 'future' );
+  if ( $cat !== null ) {
+    if ( $cat ) {
+      $atts['cat'] = $cat;
+      $atts['numberposts'] = 1;
+    }  
+    $atts['meta_key'] = "_do_not_reschedule";
+    $atts['meta_compare'] = "NOT EXISTS"; 
+    $atts['meta_value'] = "1";
+  }
   
-  // $atts['cat'] =   set of -category IDS
-  // $atts['tag'] = set of - tag names
-  
+  if ( $tag !== null ) {
+    //if ( $tag ) {
+      $atts['tag_id'] = $tag;
+      $atts['numberposts'] = 1;
+    //}  
+    $atts['meta_key'] = "_do_not_reschedule";
+    $atts['meta_compare'] = "NOT EXISTS"; 
+    $atts['meta_value'] = "1";
+  }
   $posts = bw_get_posts( $atts );
   return( $posts );
 }
@@ -379,18 +622,21 @@ function oik_batchmove_query_reposts( $post_date ) {
  *   - change post_title: "From the archives: " $post_title
  *   - prepend post_content: "Originally published on " $post_date " <br />"
  * - update post_date by applying $reschedule using bw_date_adjust()
- * - ditto for post_date_gmt
+ *   or, for category reschedule, set date to current date and the optionally specified time.
+ * - set post_date_gmt to the new post date. This is done to ensure that if the post date is in the future then the post_status will become 'future'
  * 
- * This is done to ensure that if the post date is in the future then the post_status will become 'future'
+ * - remove postmeta fields with the following keys: _wpas_done_all, _wpas_skip_nnnnn, etc
  * 
- * - remove postmeta fields with the following keys: _wpas_done_all, _wpas_skip_nnnnn, 
- * 
- * @TODO Also delete any revisions
+ * @TODO Also delete any revisions ... good thing we didn't in an earlier version since it would have made problem determination harder
  * 
  */ 
-function oik_batchmove_republish_post( $post ) {
+function oik_batchmove_republish_post( $post, $cat=null, $time=null ) {
   oik_batchmove_handle_comments( $post ); 
-  $post->post_date = oik_batchmove_reschedule( $post->post_date );
+  if ( $cat ) {
+    $post->post_date = oik_batchmove_reschedule_cat( $post->post_date, $time ); 
+  } else { 
+    $post->post_date = oik_batchmove_reschedule( $post->post_date );
+  }  
   $post->post_date_gmt = $post->post_date; //oik_batchmove_reschedule( $post->post_date_gmt );
   // $post->post_status = "future";
   wp_update_post( $post );
@@ -431,6 +677,22 @@ function oik_batchmove_reschedule( $post_date ) {
   }  
   $new_date = bw_date_adjust( $reschedule, $post_date, $format );
   bw_trace2( $new_date, $post_date );
+  return( $new_date );
+}
+
+/**
+ * Reschedule to the current date, setting the time to the desired time if necessary
+ *
+ * Note: This function is used for both category and tag rescheduling
+ */
+function oik_batchmove_reschedule_cat( $post_date, $time ) {
+  if ( "" == $time ) {
+    $new_date = bw_format_date();
+    $new_date .= bw_format_date( $post_date, " H:i" );
+  } else {
+    $new_date = bw_format_date( null, "Y-m-d ${time}" );
+  }
+  bw_trace2( $new_date, "new_date" );
   return( $new_date );
 }
 
@@ -506,8 +768,7 @@ function oik_batchmove_delete_postmeta( $id ) {
  * Delete any post meta data that we won't need in the future
  * 
  * This includes post meta data created by:
- * Jetpack Publicize
- * 
+ * Jetpack Publicize - thereby enabling the posts to be Publicized again.
  * 
  *  3060 _wpas_done_all
  *     9 _wpas_mess
@@ -516,7 +777,8 @@ function oik_batchmove_delete_postmeta( $id ) {
  *     2 _wpas_skip_4737548
  *   744 _wpas_skip_4737700
  *
- * blogger redirect    
+ *
+ * blogger redirect - as these are assumed to be no longer necessary   
  *    
  *   2245	blogger_author
  *   2245	blogger_blog
