@@ -4,7 +4,7 @@ Donate link: http://www.oik-plugins.com/oik/oik-donate/
 Tags: category, republish, add, update, delete, scheduled republish
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,9 @@ I'm not aware of any other plugins that perform Scheduled republishing or Catego
 11. CRON box - showing next scheduled time and information for the most recent run
 
 == Upgrade Notice ==
+= 2.3 = 
+Upgrade if you need to recategorize from Uncategorized.
+
 = 2.2 =
 Category and tag republish now only processes one post per category or tag
 
@@ -165,6 +168,9 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 == Changelog ==
+= 2.3 =
+* Fixed: Recategorize from Uncategorized did not remove Uncategorized when that was the only category. The sequence of actions needs to be Add then Delete.
+
 = 2.2 = 
 * Changed: Limit Category and Tag republishing to only processing one post per category or tag
 * Tested with WordPress 3.9 through 4.0 

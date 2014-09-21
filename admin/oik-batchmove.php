@@ -204,16 +204,20 @@ function oik_batchmove_perform_action( $action, $id ) {
 }
 
 /**
- * Update a post by removing a category and adding another
- * @param post $post - the post to be updated
+ * Update a post by adding then new category then removing the original
+ * 
+ * This used to be the other way around but I noticed a bug when the post was Uncategorized.
+ * You can't remove all categories so the delete didn't work until the new category was added.
+ *  
+ * @param post $id - the post to be updated
  *  
  */
 function oik_batchmove_perform_update( $id ) {
   $from_category = bw_array_get( $_REQUEST, "_batchmove_category_select", null );
   $to_category = bw_array_get( $_REQUEST, "_batchmove_category_apply", null ); 
   if ( $from_category && $to_category ) {
-    oik_batchmove_perform_delete( $id, $from_category ); 
     oik_batchmove_perform_add( $id, $to_category );  
+    oik_batchmove_perform_delete( $id, $from_category ); 
   }
 }
 
