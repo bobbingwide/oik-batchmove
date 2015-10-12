@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013,2014
+<?php // (C) Copyright Bobbing Wide 2013-2015
 
 /**
  * Implement "oik_admin_menu" for oik-batchmove 
@@ -120,7 +120,10 @@ function oik_batchmove_action() {
   $actions = array( "update" => "Update to selected category" 
                   , "add" => "Add selected category"
                   , "delete" => "Delete selected category" 
-                  , "republish" => "Republish post" 
+                  , "republish" => "Republish post"
+                  , "metadata" => "Set meta data" 
+                  , "wpseohide" => "WordPress SEO hide"
+                  , "wpseounhide" => "WordPress SEO unhide"
                   );
   bw_select( "_batchmove_action", "Action", null, array( "#options" => $actions ) );
 }
@@ -160,6 +163,8 @@ function oik_batchmove_selected() {
   stag( "table", "widefat" );
   bw_tablerow( array( "Target Category", oik_batchmove_category_select( "_batchmove_category_apply", "" ) ) ); 
   bw_form_field_( "_batchmove_date_adjustment", "text", "Date adjustment e.g. +1 year", null, null );
+  bw_form_field_( "_batchmove_meta_key", "text", "Meta key - field name", null, null );
+  bw_form_field_( "_batchmove_meta_value", "text", "Meta value", null, null );
   oik_batchmove_action();
   etag( "table" );
   p( isubmit( "_oik_batchmove_apply", "Apply changes", null, "button-primary" ) );
@@ -292,6 +297,48 @@ function oik_batchmove_perform_republish( $id ) {
 }
 
 /**
+ * Set meta value for the selected post
+ *
+ * @param integer $id - ID of the post to be updated
+ */
+function oik_batchmove_perform_metadata( $id ) {
+  $meta_key = bw_array_get( $_REQUEST, "_batchmove_meta_key", null );
+  $meta_value = bw_array_get( $_REQUEST, "_batchmove_meta_value", null );
+  if ( $meta_key && $meta_value ) {
+    update_post_meta( $id, $meta_key, $meta_value );  
+  }
+}
+
+/**
+ * Hide the selected post from robots using WordPress SEO
+ *
+ * _yoast_wpseo_meta-robots-noindex	0=default|1=noindex|2=index
+ * _yoast_wpseo_meta-robots-nofollow	0=follow|1=nofollow
+ * _yoast_wpseo_sitemap-include	-=auto detect|always=Always include|never=Never include
+ *
+ * @param integer $id - ID of the post to be updated
+ * 
+ */
+function oik_batchmove_perform_wpseohide( $id ) {
+  update_post_meta( $id, "_yoast_wpseo_meta-robots-noindex", 1 );  
+  update_post_meta( $id, "_yoast_wpseo_meta-robots-nofollow", 1 );
+  update_post_meta( $id, "_yoast_wpseo_sitemap-include", "never" );
+}
+
+
+/**
+ * Unhide the selected post from robots using WordPress SEO
+ *
+ * @param integer $id - ID of the post to be updated
+ * 
+ */
+function oik_batchmove_perform_wpseounhide( $id ) {
+  update_post_meta( $id, "_yoast_wpseo_meta-robots-noindex", 2 );  
+  update_post_meta( $id, "_yoast_wpseo_meta-robots-nofollow", 0 );
+  update_post_meta( $id, "_yoast_wpseo_sitemap-include", "always" );
+}
+
+/**
  * Perform the selected action for each of the selected posts
  */
 function oik_batchmove_perform( $action, $new_cat ) {
@@ -359,7 +406,8 @@ function oik_batchmove_filter_where( $where = '' ) {
   global $bw_filter;
   if ( isset( $bw_filter ) ) {
     $where .= $bw_filter;
-    unset( $bw_filter );
+    //unset( $bw_filter );
+    unset( $GLOBALS['bw_filter'] );
   }  
   bw_trace2();
   return( $where );

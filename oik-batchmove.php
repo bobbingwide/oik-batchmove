@@ -3,12 +3,12 @@
 Plugin Name: oik batchmove
 Plugin URI: http://wordpress.org/extend/plugins/oik-batchmove
 Description: Batch change post categories or published date incl. CRON rescheduling
-Version: 2.3
+Version: 2.4
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 License: GPL2
 
-    Copyright 2013, 2014 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,

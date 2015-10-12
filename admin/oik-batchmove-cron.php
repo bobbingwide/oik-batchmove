@@ -54,8 +54,8 @@ function oik_batchmove_settings() {
   bw_checkbox_arr( $option, "Activated?", $options, 'activated' );
   bw_textfield_arr( $option, "Look back", $options, 'look_back', 40 );
   bw_textfield_arr( $option, "Reschedule", $options, 'reschedule', 40 );
-  bw_textfield_arr( $option, "Reschedule time, <i>format hh:mm:ss e.g. 09:00:00</i>", $options, 'reschedule_time', 8, array( '#hint' => 'format hh:mm:ss e.g. 09:00:00' ) );
-  bw_textfield_arr( $option, "Title prefix, <i>if post has comments</i>", $options, 'title_prefix', 40, array( "#hint" => "if post has comments" ) );
+  bw_textfield_arr( $option, "Reschedule time, <i>format hh:mm:ss e.g. 09:00:00</i>", $options, 'reschedule_time', 8 ); // null, array( '#hint' => 'format hh:mm:ss e.g. 09:00:00' ) );
+  bw_textfield_arr( $option, "Title prefix, <i>if post has comments</i>", $options, 'title_prefix', 40 ); // null, array( "#hint" => "if post has comments" ) );
   bw_textfield_arr( $option, "Prepend content before date, if comments", $options, "prepend_content_pre_date", 40 ); 
   bw_textfield_arr( $option, "Prepend content after date, if comments", $options, "prepend_content_post_date", 40 ); 
   etag( "table" );   
