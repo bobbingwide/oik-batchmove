@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: oik batchmove
-Plugin URI: http://wordpress.org/extend/plugins/oik-batchmove
+Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-batchmove
 Description: Batch change post categories or published date incl. CRON rescheduling
 Version: 2.4
 Author: bobbingwide
