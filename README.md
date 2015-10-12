@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: category, republish, add, update, delete, scheduled republish
 * Requires at least: 3.9
-* Tested up to: 4.1
-* Stable tag: 2.3
+* Tested up to: 4.3.1
+* Stable tag: 2.4
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,14 +18,16 @@ Actions supported:
 * Delete selected category - Deletes the currently filtered category from the selected posts
 * Republish - update the post date to the current time stamp.
 * Republish - alter the post date by adding or subtracting defined amounts
+* Update post meta - set the values for simple post meta fields
+* WordPress SEO hide - update WordPress SEO post meta to "hide" posts
+* WordPress SEO unhide - update WordPress SEO post meta to "unhide" posts
 
-For version 2.0, oik batchmove also supports Scheduled republishing using WordPress CRON
-For version 2.1, oik batchmove supports
+Scheduled republishing:
 
-* Category republishing of oldest posts in selected Categories
-* Tag republishing of oldest posts with selected Tags
-
-For version 2.2, category and tag republishing only republishes ONE post per category or tag
+* Scheduled republishing using WordPress CRON
+* Category republishing of the oldest post in selected Categories
+* Tag republishing of the oldest post with selected Tags
+* Republicizing using Jetpack publicize.
 
 
 ## Installation 
