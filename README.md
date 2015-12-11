@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: category, republish, add, update, delete, scheduled republish
 * Requires at least: 3.9
-* Tested up to: 4.3.1
-* Stable tag: 2.4
+* Tested up to: 4.4
+* Stable tag: 2.4.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,7 @@ Scheduled republishing:
 # How do I use scheduled republishing? 
 
 To enable scheduled republishing:
+
 1. Activate the oik-batchmove plugin
 1. Visit oik options > Scheduled republish to enter the settings you want to use.
 1. Ensure Activated? is checked
@@ -134,6 +135,9 @@ I'm not aware of any other plugins that perform Scheduled republishing or Catego
 11. CRON box - showing next scheduled time and information for the most recent run
 
 ## Upgrade Notice 
+# 2.4.1 
+Tested with WordPress 4.4. Now depends on oik v2.5 or higher
+
 # 2.4 
 * Upgrade if you want to: batch update meta data, perform WordPress SEO hide/unhide of posts
 
@@ -173,6 +177,10 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 ## Changelog 
+# 2.4.1 
+* Tested: with WordPress 4.4
+* Changed: Depends on oik v2.5 or higher
+
 # 2.4 
 * Added: update metadata action to set a post meta value
 * Added: WordPress SEO hide and unhide actions

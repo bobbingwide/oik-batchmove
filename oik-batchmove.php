@@ -3,10 +3,11 @@
 Plugin Name: oik batchmove
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-batchmove
 Description: Batch change post categories or published date incl. CRON rescheduling
-Version: 2.4
+Version: 2.4.1
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
-License: GPL2
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
     Copyright 2013-2015 Bobbing Wide (email : herb@bobbingwide.com )
 
@@ -95,7 +96,9 @@ function oik_batchmove_admin_menu() {
 }
 
 /**
- * Implement "admin_notices" action for oik-batchmove" 
+ * Implement "admin_notices" action for oik-batchmove"
+ * 
+ * Now depends on oik v2.5 
  */ 
 function oik_batchmove_activation() {
   static $plugin_basename = null;
@@ -106,7 +109,7 @@ function oik_batchmove_activation() {
       require_once( "admin/oik-activation.php" );
     }
   }  
-  $depends = "oik:2.2";
+  $depends = "oik:2.5";
   oik_plugin_lazy_activation( __FILE__, $depends, "oik_plugin_plugin_inactive" );
 }
 
