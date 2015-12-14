@@ -72,12 +72,7 @@ When Scheduled republish is activated you would not expect to see any posts unti
 
 The "Reposts for tomorrow" box shows you the posts that may be republished in the next scheduled invocation.
 
-# How do I see what's been republished? 
-The "Rescheduled posts" box lists posts with a post date of ( today - "look back" + "reschedule" )
-If you use the default values '-450 days' and '+451 days' this would be the posts scheduled for publishing tomorrow.
-If you find a post that you don't want republished then you may want to edit or delete it.
-
-# My time zone is not GMT (UTC+0)
+# My time zone is not GMT (UTC+0) 
 This scenario has not been tested.
 
 # How can I exclude posts? 
@@ -85,14 +80,11 @@ If you have the oik-fields plugin then you can set the "Do not republish" checkb
 Any post which has this checkbox ticked will be ignored by both Scheduled batchmove, Category republish and Tag republish.
 
 # Will my posts be re-publicized to Facebook and Twitter? 
-Yes. That's the plan.
-We're currently testing with Jetpack publicize.
-Let us know which other social media sharing/publicize plugins you want supported.
-
+Yes, using Jetpack publicize.
 
 # oik-batchmove may not be fully functional 
 I get a message that says:
-*oik-batchmove may not be fully functional*. Please install and activate the required version of this plugin: oik version 2.0
+*oik-batchmove may not be fully functional*. Please install and activate the required version of this plugin: oik version 2.5
 
 This message is asking you to install and activate the oik base plugin. There should be a link:
 
@@ -107,17 +99,18 @@ The oik base plugin provides APIs (Application Programming Interfaces) which del
 oik provides a lot of stuff, which is mostly dormant until you really need it.
 
 # Which version of oik do I need? 
-The oik-batchmove plugin is dependent upon oik (v2.0 or higher) for date filter logic
+The oik-batchmove plugin is dependent upon oik v2.5, or higher.
 
 # Which version of PHP do I need? 
 Requires PHP 5.3 or higher.
 
 # Are there similar plugins? 
-Yes. This plugin was sponsored by Howard Popeck for Our Listeners Club - for the music loving audiophile
-Before developing oik-batchmove I tried these plugins. They didn't satisfy the original requirements.
+Yes. Before developing oik-batchmove I tried these plugins.
 
 * [Batch-Move wp plugin](http://wordpress.org/plugins/batchmove/)
 * [Bulk Move](http://wordpress.org/plugins/bulk-move/)
+
+At the time, they didn't satisfy my customer's original requirements.
 
 I'm not aware of any other plugins that perform Scheduled republishing or Category republishing logic.
 
