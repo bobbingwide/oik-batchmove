@@ -84,7 +84,7 @@ Yes, using Jetpack publicize.
  
 = oik-batchmove may not be fully functional =
 I get a message that says:
-*oik-batchmove may not be fully functional*. Please install and activate the required version of this plugin: oik version 2.5
+*oik-batchmove may not be fully functional*. Please install and activate the required version of this plugin: oik version 3.1
 
 This message is asking you to install and activate the oik base plugin. There should be a link:
  
@@ -99,10 +99,10 @@ The oik base plugin provides APIs (Application Programming Interfaces) which del
 oik provides a lot of stuff, which is mostly dormant until you really need it.
 
 = Which version of oik do I need? =
-The oik-batchmove plugin is dependent upon oik v2.5, or higher.
+The oik-batchmove plugin is dependent upon oik v3.1, or higher.
 
 = Which version of PHP do I need? =
-Requires PHP 5.3 or higher.
+Requires PHP 5.3 or higher.	oik-batchmove has been tested up to PHP 7.1
 
 = Are there similar plugins? = 
 Yes. Before developing oik-batchmove I tried these plugins. 
@@ -120,7 +120,7 @@ If you want to read more about the oik plugins then please visit the
 
 
 == Screenshots ==
-1. Selection criteria: Choose the posts to alter
+1. Selection criteria Choose the posts to alter
 2. Selected posts
 3. Target category and Action
 4. Result reporting
@@ -143,7 +143,7 @@ Tested with WordPress 4.5. Now depends on oik v3.0 or higher
 Tested with WordPress 4.4. Now depends on oik v2.5 or higher
 
 = 2.4 =
-Upgrade if you want to: batch update meta data, perform WordPress SEO hide/unhide of posts
+Upgrade if you want to batch update meta data, perform WordPress SEO hide/unhide of posts
 
 = 2.3 = 
 Upgrade if you need to recategorize from Uncategorized.
