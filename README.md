@@ -1,10 +1,11 @@
 # oik-batchmove 
+![banner](https://raw.githubusercontent.com/bobbingwide/oik-batchmove/master/assets/oik-batchmove-banner-772x250.jpg)
 * Contributors: bobbingwide, vsgloik
-* Donate link: http://www.oik-plugins.com/oik/oik-donate/
+* Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: category, republish, add, update, delete, scheduled republish
 * Requires at least: 3.9
-* Tested up to: 4.5
-* Stable tag: 2.4.2
+* Tested up to: 4.7.3
+* Stable tag: 2.4.3
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,13 +31,13 @@ Scheduled republishing:
 * Republicizing using Jetpack publicize.
 
 
-## Installation 
+
+## Frequently Asked Questions 
+# Installation 
 1. Upload the contents of the oik-batchmove plugin to the `/wp-content/plugins/oik-batchmove' directory
 1. Activate the oik-batchmove plugin through the 'Plugins' menu in WordPress
 1. Visit Posts > Batch move or Oik options > Batch move to start changing post's categories or publication dates.
 
-
-## Frequently Asked Questions 
 # How do I use it? 
 
 1. Visit Posts > Batch move
@@ -107,12 +108,17 @@ Requires PHP 5.3 or higher.
 # Are there similar plugins? 
 Yes. Before developing oik-batchmove I tried these plugins.
 
-* [Batch-Move wp plugin](http://wordpress.org/plugins/batchmove/)
-* [Bulk Move](http://wordpress.org/plugins/bulk-move/)
+* [Batch-Move wp plugin](https://wordpress.org/plugins/batchmove/)
+* [Bulk Move](https://wordpress.org/plugins/bulk-move/)
 
 At the time, they didn't satisfy my customer's original requirements.
 
 I'm not aware of any other plugins that perform Scheduled republishing or Category republishing logic.
+
+# Further reading 
+If you want to read more about the oik plugins then please visit the
+[oik plugin](https://www.oik-plugins.com/oik) **"the oik plugin - for often included key-information"**
+
 
 ## Screenshots 
 * 1. Selection criteria: Choose the posts to alter
@@ -128,6 +134,9 @@ I'm not aware of any other plugins that perform Scheduled republishing or Catego
 11. CRON box - showing next scheduled time and information for the most recent run
 
 ## Upgrade Notice 
+# 2.4.3 
+Tested with WordPress 4.7.3. Tested with PHP 7.1. Now depends on oik v3.1 or higher.
+
 # 2.4.2 
 Tested with WordPress 4.5. Now depends on oik v3.0 or higher
 
@@ -173,6 +182,11 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 ## Changelog 
+# 2.4.3 
+* Changed: Now depends on oik v3.1 or higher
+* Tested: With WordPress 4.7.3
+* Tested: With PHP 7.1
+
 # 2.4.2 
 * Tested: with WordPress 4.5.
 * Changed: Depends on oik v3.0.0 or higher
@@ -244,9 +258,3 @@ This plugin is dependent upon the oik base plugin v1.17
 
 # 0.1.0218 
 * Added: New code supports listing of posts and actions to add a category, remove a category or update (replace) or to republish a post
-
-## Further reading 
-If you want to read more about the oik plugins then please visit the
-[oik plugin](http://www.oik-plugins.com/oik)
-**"the oik plugin - for often included key-information"**
-
