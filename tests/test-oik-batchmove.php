@@ -1,12 +1,15 @@
-<?php // (C) Copyright Bobbing Wide 2017
+<?php // (C) Copyright Bobbing Wide 2017-2020
 
 /**
  * @package oik-batchmove
- * 
+ *
+ * For these tests to work there have to be multiple categories, not just Uncategorised.
+ * Post 1 must exist and have more than one category.
+ *
  */
 class Tests_oik_batchmove extends BW_UnitTestCase {
 
-	function setUp() {
+	function setUp() : void {
 		parent::setUp();
 		//oik_require( "includes/oik-filters.inc" );
 		oik_require( "admin/oik-batchmove.php", "oik-batchmove" );
@@ -24,7 +27,6 @@ class Tests_oik_batchmove extends BW_UnitTestCase {
 	
 	function get_nth_category( $n ) {
 		$terms = get_categories();
-		//print_r( $terms );
 		return $terms[ $n ]->term_id;
 	}
 	
@@ -46,6 +48,10 @@ class Tests_oik_batchmove extends BW_UnitTestCase {
 		$actual = current( $categories ); 
 		$this->assertEquals( $first_cat, $actual  );
 	}
+
+	/**
+	 * For this test to work post 1 has to already have more than one category.
+	 */
 	
 	function test_oik_batchmove_perform_delete() {
 		$categories = wp_get_post_categories( 1 );
