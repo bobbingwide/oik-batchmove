@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: category, republish, add, update, delete, scheduled republish
 * Requires at least: 3.9
-* Tested up to: 4.8
-* Stable tag: 2.4.3
+* Tested up to: 5.4.1
+* Stable tag: 2.5.0
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,7 +85,7 @@ Yes, using Jetpack publicize.
 
 # oik-batchmove may not be fully functional 
 I get a message that says:
-*oik-batchmove may not be fully functional*. Please install and activate the required version of this plugin: oik version 3.1
+*oik-batchmove may not be fully functional*. Please install and activate the required version of this plugin: oik version 4.0
 
 This message is asking you to install and activate the oik base plugin. There should be a link:
 
@@ -101,9 +101,6 @@ oik provides a lot of stuff, which is mostly dormant until you really need it.
 
 # Which version of oik do I need? 
 The oik-batchmove plugin is dependent upon oik v3.1, or higher.
-
-# Which version of PHP do I need? 
-Requires PHP 5.3 or higher.	oik-batchmove has been tested up to PHP 7.1
 
 # Are there similar plugins? 
 Yes. Before developing oik-batchmove I tried these plugins.
@@ -134,6 +131,9 @@ If you want to read more about the oik plugins then please visit the
 11. CRON box - showing next scheduled time and information for the most recent run
 
 ## Upgrade Notice 
+# 2.5.0 
+Now dependent upon oik v4.0.0. Tested with WordPress 5.4.1.
+
 # 2.4.3 
 Tested with WordPress 4.7.3. Tested with PHP 7.1. Now depends on oik v3.1 or higher.
 
@@ -182,6 +182,12 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 ## Changelog 
+# 2.5.0 
+* Changed: Updated to be compatible with oik v4.0.0,https://github.com/bobbingwide/oik-batchmove/issues/3
+* Tested: With WordPress 5.4.1
+* Tested: With PHPUnit 8
+* Tested: With PHP 7.3 and PHP 7.4
+
 # 2.4.3 
 * Changed: Now depends on oik v3.1 or higher
 * Tested: With WordPress 4.7.3
