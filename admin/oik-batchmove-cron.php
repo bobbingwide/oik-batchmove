@@ -393,7 +393,7 @@ function bw_delete_all_meta_key( $meta_key, $meta_value ) {
 function oik_batchmove_lazy_category_republish( $verbose=false) {
   $bw_bmcs = get_option( "bw_bmcs" );
   if ( is_array( $bw_bmcs) && count( $bw_bmcs )) {
-    oik_require( "includes/bw_posts.inc" );
+    oik_require( "includes/bw_posts.php" );
     bw_delete_all_meta_key( "_do_not_reschedule", "0" );
     foreach ( $bw_bmcs as $bmc => $data ) {
       oik_batchmove_category_republish( $data['args']['category'], $data['args']['time'], $verbose );
@@ -422,7 +422,7 @@ function oik_batchmove_lazy_category_republish( $verbose=false) {
 function oik_batchmove_lazy_tag_republish( $verbose=false) {
   $bw_bmts = get_option( "bw_bmts" );
   if ( is_array( $bw_bmts) && count( $bw_bmts )) {
-    oik_require( "includes/bw_posts.inc" );
+    oik_require( "includes/bw_posts.php" );
     bw_delete_all_meta_key( "_do_not_reschedule", "0" );
     foreach ( $bw_bmts as $bmc => $data ) {
       oik_batchmove_tag_republish( $data['args']['tag'], $data['args']['time'], $verbose );
@@ -581,7 +581,7 @@ function oik_batchmove_log_reposted( $post_date, $posts ) {
  */
 function oik_batchmove_query_reposts( $post_date, $cat=null, $tag=null ) {
   bw_trace2();
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $atts = array();
   $atts['post_type'] = "post";
   $atts['year'] = bw_format_date( $post_date, "Y" ); 

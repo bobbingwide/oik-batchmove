@@ -17,7 +17,7 @@ function oik_batchmove_lazy_admin_menu() {
  * Implement batchmove main page 
  */
 function oik_batchmove_do_page() {
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   oik_menu_header( "batch change post categories or published date", "w90pc" );
   oik_box( null, null, "Results", "oik_batchmove_results" );
   oik_box( null, null, "Selection criteria. Choose the posts to alter", "oik_batchmove_selection" );
@@ -99,7 +99,7 @@ function oik_batchmove_selection() {
   //bw_textfield( "_batchmove_keywords", 30, "Keywords", null );
   //bw_textfield( "_batchmove_tags", 30, "Tags", null );
   
-  oik_require( "bw_metadata.inc" ); 
+  oik_require( "includes/bw_metadata.php" );
   
   //$from_date = bw_get_option( "yearFrom" );
   
@@ -418,7 +418,7 @@ function oik_batchmove_filter_where( $where = '' ) {
  */
 function oik_batchmove_display_posts() {
   $category_select = bw_array_get( $_REQUEST, "_batchmove_category_select", null );
-  oik_require( "includes/bw_posts.inc" );
+  oik_require( "includes/bw_posts.php" );
   $args = array( "post_type" => "post" 
                  , "orderby" => bw_array_get( $_REQUEST, "_batchmove_order_by", null )
                  , "order" => bw_array_get( $_REQUEST, "_batchmove_order", null )
