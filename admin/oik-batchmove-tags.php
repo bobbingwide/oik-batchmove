@@ -288,6 +288,7 @@ function oik_batchmove_tag_select() {
 
 function oik_bmt_add_oik_bmt( ) {
   global $bw_bmt;
+  $bw_bmt['args']['time'] = bw_array_get( $_REQUEST, "time", null );
   bw_form();
   stag( "table", "wide-fat" );
   //$types = bw_list_registered_post_types();

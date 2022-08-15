@@ -254,6 +254,8 @@ function bw_list_categories() {
 
 function oik_bmc_add_oik_bmc( ) {
   global $bw_bmc;
+	$bw_bmc['args']['time'] = bw_array_get( $_REQUEST, "time", null );
+  bw_trace2( $bw_bmc, "bw_bmc", false);
   bw_form();
   stag( "table", "wide-fat" );
   //$types = bw_list_registered_post_types();
