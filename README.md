@@ -1,11 +1,11 @@
 # oik-batchmove 
-![banner](https://raw.githubusercontent.com/bobbingwide/oik-batchmove/master/assets/oik-batchmove-banner-772x250.jpg)
+![banner](assets/oik-batchmove-banner-772x250.jpg)
 * Contributors: bobbingwide, vsgloik
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: category, republish, add, update, delete, scheduled republish
 * Requires at least: 3.9
-* Tested up to: 5.7
-* Stable tag: 2.5.0
+* Tested up to: 6.0.1
+* Stable tag: 2.5.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,14 +103,10 @@ oik provides a lot of stuff, which is mostly dormant until you really need it.
 The oik-batchmove plugin is dependent upon oik v3.1, or higher.
 
 # Are there similar plugins? 
-Yes. Before developing oik-batchmove I tried these plugins.
+Yes, [Bulk Move](https://wordpress.org/plugins/bulk-move/)
 
-* [Batch-Move wp plugin](https://wordpress.org/plugins/batchmove/)
-* [Bulk Move](https://wordpress.org/plugins/bulk-move/)
-
-At the time, they didn't satisfy my customer's original requirements.
-
-I'm not aware of any other plugins that perform Scheduled republishing or Category republishing logic.
+On the plus side, Bulk Move supports Custom Taxonomies and switching between Categories and Tags.
+It may not support Scheduled republishing or Category/Tag specific republishing logic.
 
 # Further reading 
 If you want to read more about the oik plugins then please visit the
@@ -131,6 +127,9 @@ If you want to read more about the oik plugins then please visit the
 11. CRON box - showing next scheduled time and information for the most recent run
 
 ## Upgrade Notice 
+# 2.5.1 
+Tested with WordPress 6.0.1
+
 # 2.5.0 
 Now dependent upon oik v4.0.0. Tested with WordPress 5.4.1.
 
@@ -182,6 +181,12 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 ## Changelog 
+# 2.5.1 
+* Fixed: Avoid Notices in Scheduled republish,https://github.com/bobbingwide/oik-batchmove/issues/4
+* Tested: With WordPress 6.0.1
+* Tested: With PHPUnit 9
+* Tested: With PHP 8.0
+
 # 2.5.0 
 * Changed: Updated to be compatible with oik v4.0.0,https://github.com/bobbingwide/oik-batchmove/issues/3
 * Tested: With WordPress 5.4.1
