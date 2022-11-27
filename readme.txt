@@ -3,7 +3,7 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: category, republish, add, update, delete, scheduled republish
 Requires at least: 3.9
-Tested up to: 6.0.1
+Tested up to: 6.1.1
 Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
