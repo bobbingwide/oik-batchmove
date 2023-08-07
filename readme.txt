@@ -3,7 +3,7 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: category, republish, add, update, delete, scheduled republish
 Requires at least: 3.9
-Tested up to: 6.1.1
+Tested up to: 6.3
 Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -127,7 +127,7 @@ If you want to read more about the oik plugins then please visit the
 
 == Upgrade Notice ==
 = 2.5.1 =
-Tested with WordPress 6.0.1
+Tested with WordPress 6.0.1 to 6.3
 
 = 2.5.0 =
 Now dependent upon oik v4.0.0. Tested with WordPress 5.4.1.
@@ -182,7 +182,7 @@ This plugin is dependent upon the oik base plugin v1.17
 == Changelog ==
 = 2.5.1 =
 * Fixed: Avoid Notices in Scheduled republish,[github bobbingwide oik-batchmove issues 4]
-* Tested: With WordPress 6.0.1
+* Tested: With WordPress 6.0.1 to 6.3
 * Tested: With PHPUnit 9
 * Tested: With PHP 8.0
 
