@@ -3,13 +3,13 @@
 Plugin Name: oik batchmove
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-batchmove
 Description: Batch change post categories or published date incl. CRON rescheduling
-Version: 2.5.1
+Version: 2.5.2
 Author: bobbingwide
 Author URI: https://bobbingwide.com/about-bobbing-wide
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2013-2022 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2013-2023 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -64,7 +64,7 @@ function oik_batchmove_fields_loaded() {
  * @return string the new date
  */
 if( !function_exists( "bw_date_adjust" ) ) {
-function bw_date_adjust( $adjustment="1 year", $date=null, $format='Y-m-d' ) {
+function bw_date_adjust( $adjustment="1 year", $date='', $format='Y-m-d' ) {
   $adate = date_create( $date );
   date_add( $adate, date_interval_create_from_date_string( $adjustment ));
   return( date_format( $adate, $format ) );
