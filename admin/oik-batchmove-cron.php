@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2013, 2014
+<?php // (C) Copyright Bobbing Wide 2013, 2014, 2023
 
 /** 
  * Display the "Scheduled republish" page 
@@ -671,7 +671,7 @@ function oik_batchmove_reschedule( $post_date ) {
   $reschedule = oik_batchmove_scheduled_option( "reschedule" );
   $reschedule_time = oik_batchmove_scheduled_option( "reschedule_time" );
   if ( $reschedule_time ) {
-    $format = "Y-m-d ${reschedule_time}"; 
+    $format = "Y-m-d {$reschedule_time}"; 
   } else {
     $format = "Y-m-d H:i:s";
   }  
@@ -690,7 +690,7 @@ function oik_batchmove_reschedule_cat( $post_date, $time ) {
     $new_date = bw_format_date();
     $new_date .= bw_format_date( $post_date, " H:i" );
   } else {
-    $new_date = bw_format_date( null, "Y-m-d ${time}" );
+    $new_date = bw_format_date( null, "Y-m-d {$time}" );
   }
   bw_trace2( $new_date, "new_date" );
   return( $new_date );
