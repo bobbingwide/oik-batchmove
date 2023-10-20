@@ -6,7 +6,7 @@
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	>
-	<!-- for PHPUnit 8 -->
+	<!-- for PHPUnit 9.6 -->
 	<testsuites>
 		<testsuite name="oik-batchmove">
 			<directory prefix="test-" suffix=".php">tests/</directory>
