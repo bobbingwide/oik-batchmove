@@ -4,8 +4,8 @@
 * Donate link: https://www.oik-plugins.com/oik/oik-donate/
 * Tags: category, republish, add, update, delete, scheduled republish
 * Requires at least: 3.9
-* Tested up to: 6.0.1
-* Stable tag: 2.5.1
+* Tested up to: 6.4-RC1
+* Stable tag: 2.5.2
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -127,8 +127,11 @@ If you want to read more about the oik plugins then please visit the
 11. CRON box - showing next scheduled time and information for the most recent run
 
 ## Upgrade Notice 
+# 2.5.2 
+Update for support for PHP 8.1 and PHP 8.2
+
 # 2.5.1 
-Tested with WordPress 6.0.1
+Tested with WordPress 6.0.1 to 6.3
 
 # 2.5.0 
 Now dependent upon oik v4.0.0. Tested with WordPress 5.4.1.
@@ -181,9 +184,15 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 ## Changelog 
+# 2.5.2 
+* Changed: Support PHP 8.1 and PHP 8.2 #5
+* Tested: With WordPress 6.4-RC1 and WordPress Multisite
+* Tested: With PHP 8.0, PHP 8.1 and PHP 8.2
+* Tested: With PHPUnit 9.6
+
 # 2.5.1 
 * Fixed: Avoid Notices in Scheduled republish,https://github.com/bobbingwide/oik-batchmove/issues/4
-* Tested: With WordPress 6.0.1
+* Tested: With WordPress 6.0.1 to 6.3
 * Tested: With PHPUnit 9
 * Tested: With PHP 8.0
 
