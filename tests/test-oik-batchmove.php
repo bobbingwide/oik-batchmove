@@ -1,4 +1,4 @@
-<?php // (C) Copyright Bobbing Wide 2017-2020
+<?php // (C) Copyright Bobbing Wide 2017-2020,2024
 
 /**
  * @package oik-batchmove
@@ -27,7 +27,14 @@ class Tests_oik_batchmove extends BW_UnitTestCase {
 	
 	function get_nth_category( $n ) {
 		$terms = get_categories();
-		return $terms[ $n ]->term_id;
+		$term = current( $terms );
+		for ( $i = 1; $i<= $n; $i++ ) {
+			$term = next( $terms);
+		}
+
+		return $term->term_id ?? null;
+		//print_r( $terms );
+		//return $terms[ $n ]->term_id;
 	}
 	
 	/**

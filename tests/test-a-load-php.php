@@ -27,12 +27,9 @@ class Tests_load_php extends BW_UnitTestCase
 		oik_require( 'admin/oik-batchmove-tags.php', 'oik-batchmove');
 		$this->assertTrue( true );
 	}
-	
+
 	function test_load_plugin_php() {
 		oik_require( 'oik-batchmove.php', 'oik-batchmove');
 		$this->assertTrue( true );
 	}
 }
-
-
-
