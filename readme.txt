@@ -1,9 +1,9 @@
 === oik-batchmove ===
 Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
-Tags: category, republish, add, update, delete, scheduled republish
+Tags: category, change, republish, scheduled republish
 Requires at least: 3.9
-Tested up to: 6.5-RC3
+Tested up to: 6.6.2
 Stable tag: 2.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
