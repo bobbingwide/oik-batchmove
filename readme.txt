@@ -3,8 +3,8 @@ Contributors: bobbingwide, vsgloik
 Donate link: https://www.oik-plugins.com/oik/oik-donate/
 Tags: category, change, republish, scheduled republish
 Requires at least: 3.9
-Tested up to: 6.7
-Stable tag: 2.5.2
+Tested up to: 6.8.2
+Stable tag: 2.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,6 +126,9 @@ If you want to read more about the oik plugins then please visit the
 11. CRON box - showing next scheduled time and information for the most recent run
 
 == Upgrade Notice ==
+= 2.5.3 =
+Update for support for PHP 8.3 and PHP 8.4. Tested with WordPress 6.8.2
+
 = 2.5.2 =
 Update for support for PHP 8.1, PHP 8.2 and PHP 8.3
 
@@ -183,6 +186,12 @@ The date filter logic is dependent upon oik v1.18 or higher.
 This plugin is dependent upon the oik base plugin v1.17
 
 == Changelog ==
+= 2.5.3 = 
+* Changed: Update tests for PHPUnit 10 & 11 #6
+* Tested: With WordPress 6.8.2 and WordPress Multisite
+* Tested: With PHP 8.3 and PHP 8.4
+* Tested: With PHPUnit 9.6, 10 & 11
+
 = 2.5.2 = 
 * Changed: Support PHP 8.1 and PHP 8.2 #5
 * Tested: With WordPress 6.4-RC1 and WordPress Multisite
