@@ -8,6 +8,8 @@ Stable tag: 2.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+The oik-batchmove plugin enables you to perform mass updates to the categories assigned to posts. It also enables you to republish posts.
+
 == Description ==
 This plugin enables you to filter posts in a particular category and then apply mass updates to selected posts.
 
